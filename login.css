@@ -22,6 +22,16 @@ body {
     max-width: 360px;
 }
 
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 160px;
+    height: auto;
+}
+
 .form-header h3 {
     text-align: center;
     margin-bottom: 24px;
