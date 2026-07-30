@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,31 +6,56 @@
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
- 
+
     <div class="form-container">
+        <div class="logo-container">
+            <img src="image/studelylogo.png" alt="Studely logo">
+        </div>
+
         <div class="form-header">
             <h3>Log In</h3>
         </div>
- 
-        <form>
+
+        <form onsubmit="return checkLogin()">
             <div class="input-container">
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
             </div>
- 
+
             <div class="forgot-password">
                 <a href="#">Forgot password?</a>
             </div>
- 
+
             <div class="button">
                 <button class="submit" type="submit">LOG IN</button>
             </div>
         </form>
- 
+
         <div class="signup">
             Don't have an account? <a href="signup.html">Sign up</a>
         </div>
     </div>
- 
+
+    <script>
+        function checkLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "" || password === "") {
+                showAlert("Please fill in both fields!");
+            } else if (username === "admin" && password === "1234") {
+                showAlert("Welcome, " + username + "! Login successful.");
+            } else {
+                showAlert("Wrong username or password. Try again.");
+            }
+
+            return false; // stops the form from actually submitting/refreshing the page
+        }
+
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
+
 </body>
 </html>
