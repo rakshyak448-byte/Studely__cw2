@@ -37,24 +37,26 @@
     </div>
 
     <script>
-        function checkLogin() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        
+    function checkLogin() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-            if (username === "" || password === "") {
-                showAlert("Please fill in both fields!");
-            } else if (username === "admin" && password === "1234") {
-                showAlert("Welcome, " + username + "! Login successful.");
-            } else {
-                showAlert("Wrong username or password. Try again.");
-            }
-
-            return false; // stops the form from actually submitting/refreshing the page
+        if (username === "" || password === "") {
+            showAlert("Please fill in both fields!");
+        } else if (username === "admin" && password === "1234") {
+            window.location.href = "main.html"; // go to the main page after login
+        } else {
+            showAlert("Wrong username or password. Try again.");
         }
 
-        function showAlert(message) {
-            alert(message);
-        }
+        return false; // stops the form from actually submitting/refreshing the page
+    }
+
+    function showAlert(message) {
+        alert(message);
+    }
+
     </script>
 
 </body>
