@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="image/studelylogo.png" alt="Studely Logo">
+        </div>
+        <nav class="navigation">
+            <a href="main.html">Home</a>
+            <a href="resources.html" class="active">Resources</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- File Upload Section -->
+        <section style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+            <h2 style="color: #1e3a8a; margin-bottom: 10px;">Upload Study Material</h2>
+            <p style="color: #64748b; margin-bottom: 20px;">Share notes or documents directly from your computer.</p>
+            
+            <form id="uploadForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) gap 15px;">
+                <div class="form-group">
+                    <label for="fileTitle">Title / Name *</label>
+                    <input type="text" id="fileTitle" placeholder="e.g. Python Cheat Sheet" required>
+                </div>
+                <div class="form-group">
+                    <label for="fileCategory">Category *</label>
+                    <select id="fileCategory" style="width:100%; padding:10px; border-radius:6px; border:1px solid #cbd5e1;">
+                        <option value="Computing">Computing</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Management">Management</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fileInput">Choose File *</label>
+                    <input type="file" id="fileInput" required style="border: none; padding: 5px;">
+                </div>
+                <button type="submit" class="btn-primary" style="height: 42px; align-self: flex-end; margin-bottom: 16px;">Upload File</button>
+            </form>
+        </section>
+
+        <!-- Search Filter & Resource Grid -->
+        <section style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #1e3a8a;">Free Study Resources</h1>
+            <p style="color: #64748b; margin-top: 6px;">Search notes, past papers, and guides shared by students.</p>
+            <input type="text" id="searchBox" placeholder="Search by subject or title..." style="margin-top: 20px; padding: 12px 20px; width: 100%; max-width: 450px; border: 2px solid #cbd5e1; border-radius: 25px; outline: none;">
+        </section>
+
+        <section class="features-grid" id="resourceContainer">
+            <div class="card resource-card">
+                <div>
+                    <span class="subject-tag">Computing</span>
+                    <h3>Intro to Databases - Revision Notes</h3>
+                    <p>Summary notes covering ER diagrams, normalization, and SQL basics.</p>
+                </div>
+                <a href="data:text/plain;charset=utf-8,Sample%20Database%20Notes%20Content" download="Database_Notes.txt" class="btn-primary" style="margin-top:15px; text-align:center;">Download Sample File</a>
+            </div>
+        </section>
+        <p id="noResults" style="text-align: center; color: #64748b; margin-top: 20px; display: none;">No resources match your search.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

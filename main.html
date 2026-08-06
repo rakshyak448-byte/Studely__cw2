@@ -1,30 +1,105 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>studely</title>
-    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studely - Home</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <div class="logo">
-            <img src="image/studelylogo.png" alt="Studely Logo" >
+            <img src="image/studelylogo.png" alt="Studely Logo">
         </div>
-
-    <!-- Navigation -->
-        <nav class="navigation"> 
-            <a href="main.html">Home</a> |
-            <a href="">page2</a> |
-            <a href="">page3</a> |
+        <nav class="navigation">
+            <a href="main.html" class="active">Home</a>
+            <a href="resources.html">Resources</a>
+            <a href="faq.html">FAQ</a>
             <a href="contact.html">Contact</a>
         </nav>
     </header>
-</body>
 
+    <main>
+        <section class="hero">
+            <h1>Welcome to Studely</h1>
+            <p>Free study resources, past papers, and peer support for every student.</p>
+        </section>
 
-    <!-- Footer -->
-     <hr>
-    <footer class="footer">
+        <section class="container">
+            <!-- Student Deadline Tracker & To-Do List -->
+            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+                <h2 style="color: #1e3a8a; margin-bottom: 15px;">Academic Reminders & Deadlines</h2>
+                <form id="reminderForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="taskTitle">Task / Subject</label>
+                        <input type="text" id="taskTitle" placeholder="e.g. CW2 Client-Side Dev" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskType">Type</label>
+                        <select id="taskType" style="width:100%; padding:10px; border-radius:6px; border:1px solid #cbd5e1;">
+                            <option value="Assignment">Assignment</option>
+                            <option value="Exam">Exam Date</option>
+                            <option value="To-Do">To-Do Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDate">Due Date</label>
+                        <input type="date" id="taskDate" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="height: 42px; align-self: flex-end; margin-bottom: 16px;">Add Reminder</button>
+                </form>
+
+                <ul id="reminderList" style="list-style: none; padding: 0;"></ul>
+            </div>
+
+            <!-- Student Mental Wellbeing Hub -->
+            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 4px solid #10b981;">
+                <h2 style="color: #065f46; margin-bottom: 8px;">🧠 Student Mental Wellbeing & Support</h2>
+                <p style="color: #475569; margin-bottom: 20px;">University life can be overwhelming. Take care of your mind while managing your coursework.</p>
+
+                <div class="features-grid" style="gap: 15px;">
+                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                        <h4 style="color: #166534; margin-bottom: 6px;">⏱️ 25/5 Study Technique</h4>
+                        <p style="font-size: 0.88rem; color: #14532d;">Prevent burnout by studying for 25 minutes, then taking a mandatory 5-minute break away from screens.</p>
+                    </div>
+
+                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                        <h4 style="color: #166534; margin-bottom: 6px;">🌿 Mindfulness & Breathing</h4>
+                        <p style="font-size: 0.88rem; color: #14532d;">Feeling stressed? Take 4 deep breaths: inhale for 4s, hold for 4s, and exhale slowly for 6s.</p>
+                    </div>
+
+                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                        <h4 style="color: #166534; margin-bottom: 6px;">📞 Need Help?</h4>
+                        <p style="font-size: 0.88rem; color: #14532d;">Contact student services or reach out to <strong>Samaritans (116 123)</strong> for 24/7 confidential support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="card">
+                    <h3>Revision Notes</h3>
+                    <p>Access structured notes covering databases, programming, and mathematics modules.</p>
+                    <a href="resources.html" class="btn-primary" style="margin-top:15px; text-align:center;">View Notes</a>
+                </div>
+                <div class="card">
+                    <h3>Past Papers</h3>
+                    <p>Prepare efficiently with downloadable archive exam papers and step-by-step solutions.</p>
+                    <a href="resources.html" class="btn-primary" style="margin-top:15px; text-align:center;">Find Papers</a>
+                </div>
+                <div class="card">
+                    <h3>Peer Support</h3>
+                    <p>Connect with classmates and join collaborative study groups to conquer tough modules.</p>
+                    <a href="faq.html" class="btn-primary" style="margin-top:15px; text-align:center;">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
         <p>&copy; 2026 Studely. All rights reserved.</p>
     </footer>
 

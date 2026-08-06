@@ -1,63 +1,49 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studely</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Log In - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
 
-    <div class="form-container">
-        <div class="logo-container">
-            <img src="image/studelylogo.png" alt="Studely logo">
+    <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 380px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="image/studelylogo.png" alt="Studely logo" style="max-width: 140px;">
         </div>
 
-        <div class="form-header">
-            <h3>Log In</h3>
-        </div>
+        <h3 style="text-align: center; margin-bottom: 24px; color: #1e3a8a;">Log In</h3>
 
         <form onsubmit="return checkLogin()">
-            <div class="input-container">
+            <div class="form-group">
                 <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
                 <input type="password" id="password" placeholder="Password" required>
             </div>
-
-            <div class="forgot-password">
-                <a href="#">Forgot password?</a>
-            </div>
-
-            <div class="button">
-                <button class="submit" type="submit">LOG IN</button>
-            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">LOG IN</button>
         </form>
 
-        <div class="signup">
-            Don't have an account? <a href="signup.html">Sign up</a>
-        </div>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #64748b;">
+            Don't have an account? <a href="contact.html" style="color: #2563eb; text-decoration: none; font-weight: bold;">Sign up</a>
+        </p>
     </div>
 
     <script>
-        
-    function checkLogin() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        function checkLogin() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
 
-        if (username === "" || password === "") {
-            showAlert("Please fill in both fields!");
-        } else if (username === "admin" && password === "1234") {
-            window.location.href = "main.html"; // go to the main page after login
-        } else {
-            showAlert("Wrong username or password. Try again.");
+            if (user === "admin" && pass === "1234") {
+                window.location.href = "main.html";
+            } else {
+                alert("Incorrect username or password.");
+            }
+            return false;
         }
-
-        return false; // stops the form from actually submitting/refreshing the page
-    }
-
-    function showAlert(message) {
-        alert(message);
-    }
-
     </script>
-
 </body>
 </html>
