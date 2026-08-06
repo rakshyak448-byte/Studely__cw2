@@ -1,0 +1,43 @@
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: rgb(237, 241, 248);
+}
+
+/* Logo */
+header img {
+    width: 60px;
+    height: auto;
+}
+
+
+
+
+/* Navigation */
+.navigation {
+    display: flex;
+    gap: 30px;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: rgb(63, 67, 161);
+    font-size: 15px;
+    font-weight: bold;
+}
+.footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+.social-media {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
