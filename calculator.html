@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="image/studelylogo.png" alt="Studely Logo">
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <nav class="navigation">
+    <a href="main.html">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html" class="active">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+</nav>
+    </header>
+
+    <main class="container" style="max-width: 800px;">
+        <section class="card-box">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Global Grade & GPA Predictor</h1>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Calculate your overall weighted module percentage and university degree classification.</p>
+
+            <form id="calcForm">
+                <div id="calcRowsContainer">
+                    <div class="calc-row">
+                        <input type="text" placeholder="Module Name" class="mod-name" value="Client-Side Dev">
+                        <input type="number" placeholder="Credits" class="mod-credit" value="20" min="1">
+                        <input type="number" placeholder="Mark %" class="mod-mark" value="75" min="0" max="100">
+                        <button type="button" class="remove-row">×</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 20px;">
+                    <button type="button" id="addModuleBtn" class="btn-primary" style="background: #64748b;">+ Add Module</button>
+                    <button type="submit" class="btn-primary">Calculate Grade</button>
+                </div>
+            </form>
+
+            <div id="calcResult" style="margin-top: 20px;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

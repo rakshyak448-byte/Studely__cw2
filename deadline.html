@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Reminders - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="image/studelylogo.png" alt="Studely Logo">
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <nav class="navigation">
+    <a href="main.html">Home</a>
+            <a href="deadline.html" class="active">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="card-box">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Academic Reminders & Deadline Tracker</h1>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Keep track of upcoming assignments, exam dates, and study goals in one place.</p>
+
+            <form id="reminderForm" class="grid-form">
+                <div class="form-group">
+                    <label for="taskTitle">Task / Subject *</label>
+                    <input type="text" id="taskTitle" placeholder="e.g. CW2 Client-Side Dev" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskType">Type *</label>
+                    <select id="taskType">
+                        <option value="Assignment">Assignment</option>
+                        <option value="Exam">Exam Date</option>
+                        <option value="To-Do">To-Do Item</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDate">Due Date *</label>
+                    <input type="date" id="taskDate" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Reminder</button>
+            </form>
+
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Your Saved Reminders</h3>
+                <ul id="reminderList" style="list-style: none;"></ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

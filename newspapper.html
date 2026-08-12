@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studely - Campus Newsletter & Events</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+        <a href="main.html"><img src="image/studelylogo.png" alt="Studely Logo"></a>
+    </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+        <nav class="navigation">
+            <a href="main.html">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html" class="active">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Newsletter Subscription Box -->
+        <div class="card-box" style="text-align: center;">
+            <h2>📩 Student Campus Newsletter</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0.5rem auto 1.5rem auto;">
+                Subscribe to get weekly updates on campus events, career bootcamps, academic deadlines, and workshops sent straight to your email.
+            </p>
+            <form id="newsletterForm">
+                <input type="email" id="newsletterEmail" placeholder="Enter your student email..." required>
+                <button type="submit" class="btn-primary" style="white-space: nowrap;">Subscribe</button>
+            </form>
+            <div id="newsletterResult" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Upcoming Campus Events & Bootcamps -->
+        <div class="card-box">
+            <h3>Upcoming Campus Events & Bootcamps</h3>
+            <br>
+            <div class="features-grid">
+
+                <!-- Card 1 -->
+                <div class="card wb-card clickable-card" onclick="openEventModal('Employability Bootcamp', 'Next Wednesday | 10:00 AM', 'Covering career pathways, UK CVs, assessment centers, and interview prep. Earn a Digital Badge!')">
+                    <div class="wb-card-content">
+                        <span class="event-badge badge-employability">Employability</span>
+                        <h4 style="margin-top: 0.5rem;">Employability Bootcamp</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Covering career pathways, UK CVs, assessment centers, and interview prep. Earn a Digital Badge!
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">
+                            🗓️ Date: Next Wednesday | 10:00 AM
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card wb-card clickable-card" onclick="openEventModal('Campus Welcome & Social Night', 'Friday Evening | 5:00 PM', 'Meet other students, enjoy free snacks, and learn more about student societies on campus.')">
+                    <div class="wb-card-content">
+                        <span class="event-badge badge-social">Social</span>
+                        <h4 style="margin-top: 0.5rem;">Campus Welcome & Social Night</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Meet other students, enjoy free snacks, and learn more about student societies on campus.
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">
+                            🗓️ Date: Friday Evening | 5:00 PM
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card wb-card clickable-card" onclick="openEventModal('Academic Writing & Citation Workshop', 'Next Monday | 2:00 PM', 'Learn effective strategies for writing university assignments and referencing sources properly.')">
+                    <div class="wb-card-content">
+                        <span class="event-badge badge-academic">Academic</span>
+                        <h4 style="margin-top: 0.5rem;">Academic Writing & Citation Workshop</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Learn effective strategies for writing university assignments and referencing sources properly.
+                        </p>
+                        <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">
+                            🗓️ Date: Next Monday | 2:00 PM
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Event Details Popup Modal -->
+        <div id="eventModal" class="modal-overlay" onclick="closeEventModal(event)">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+                <h3 id="modalTitle" style="color: var(--primary-color); margin-bottom: 0.5rem;"></h3>
+                <p id="modalDate" style="font-weight: 600; color: var(--accent-color); margin-bottom: 1rem;"></p>
+                <p id="modalDesc" style="margin-bottom: 1.5rem; color: var(--text-dark);"></p>
+                <button class="btn-primary" onclick="registerEvent()">Register / RSVP</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

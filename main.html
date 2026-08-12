@@ -13,87 +13,122 @@
 
     <header>
         <div class="logo">
-            <img src="image/studelylogo.png" alt="Studely Logo">
+            <a href="main.html">
+                <img src="image/studelylogo.png" alt="Studely Logo">
+            </a>
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
         <nav class="navigation">
             <a href="main.html" class="active">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
             <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
             <a href="faq.html">FAQ</a>
             <a href="contact.html">Contact</a>
         </nav>
     </header>
 
-    <main>
-        <section class="hero">
-            <h1>Welcome to Studely</h1>
-            <p>Free study resources, past papers, and peer support for every student.</p>
+    <main class="container">
+        <!-- Main Welcome Hero -->
+        <section class="card-box" style="text-align: center; padding: 3rem 2rem;">
+            <h1 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.8rem;">Welcome to Studely</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+                Your all-in-one academic hub designed to help university students succeed globally through free study materials, career guidance, campus event updates, smart organization tools, and mental wellbeing support.
+            </p>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="resources.html" class="btn-primary">Browse Free Resources</a>
+                <a href="career.html" class="btn-primary">Career Guidance</a>
+                <a href="deadline.html" class="btn-primary">Track Your Deadlines</a>
+            </div>
         </section>
 
-        <section class="container">
-            <!-- Student Deadline Tracker & To-Do List -->
-            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                <h2 style="color: #1e3a8a; margin-bottom: 15px;">Academic Reminders & Deadlines</h2>
-                <form id="reminderForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 20px;">
-                    <div class="form-group">
-                        <label for="taskTitle">Task / Subject</label>
-                        <input type="text" id="taskTitle" placeholder="e.g. CW2 Client-Side Dev" required>
+        <!-- Platform Overview Grid -->
+        <section class="features-grid">
+            <!-- 1. Shared Resources Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Books and study notes" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>📚 Shared Resources</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Access and download lecture notes, past exam papers, and revision guides shared by fellow students.
+                        </p>
                     </div>
-                    <div class="form-group">
-                        <label for="taskType">Type</label>
-                        <select id="taskType" style="width:100%; padding:10px; border-radius:6px; border:1px solid #cbd5e1;">
-                            <option value="Assignment">Assignment</option>
-                            <option value="Exam">Exam Date</option>
-                            <option value="To-Do">To-Do Item</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskDate">Due Date</label>
-                        <input type="date" id="taskDate" required>
-                    </div>
-                    <button type="submit" class="btn-primary" style="height: 42px; align-self: flex-end; margin-bottom: 16px;">Add Reminder</button>
-                </form>
-
-                <ul id="reminderList" style="list-style: none; padding: 0;"></ul>
-            </div>
-
-            <!-- Student Mental Wellbeing Hub -->
-            <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 4px solid #10b981;">
-                <h2 style="color: #065f46; margin-bottom: 8px;">🧠 Student Mental Wellbeing & Support</h2>
-                <p style="color: #475569; margin-bottom: 20px;">University life can be overwhelming. Take care of your mind while managing your coursework.</p>
-
-                <div class="features-grid" style="gap: 15px;">
-                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
-                        <h4 style="color: #166534; margin-bottom: 6px;">⏱️ 25/5 Study Technique</h4>
-                        <p style="font-size: 0.88rem; color: #14532d;">Prevent burnout by studying for 25 minutes, then taking a mandatory 5-minute break away from screens.</p>
-                    </div>
-
-                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
-                        <h4 style="color: #166534; margin-bottom: 6px;">🌿 Mindfulness & Breathing</h4>
-                        <p style="font-size: 0.88rem; color: #14532d;">Feeling stressed? Take 4 deep breaths: inhale for 4s, hold for 4s, and exhale slowly for 6s.</p>
-                    </div>
-
-                    <div style="background: #f0fdf4; padding: 16px; border-radius: 8px; border: 1px solid #bbf7d0;">
-                        <h4 style="color: #166534; margin-bottom: 6px;">📞 Need Help?</h4>
-                        <p style="font-size: 0.88rem; color: #14532d;">Contact student services or reach out to <strong>Samaritans (116 123)</strong> for 24/7 confidential support.</p>
-                    </div>
+                    <a href="resources.html" class="btn-primary" style="margin-top: 1.5rem;">Explore Resources</a>
                 </div>
             </div>
 
-            <div class="features-grid">
-                <div class="card">
-                    <h3>Revision Notes</h3>
-                    <p>Access structured notes covering databases, programming, and mathematics modules.</p>
-                    <a href="resources.html" class="btn-primary" style="margin-top:15px; text-align:center;">View Notes</a>
+            <!-- 2. Academic Reminders Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="Calendar and deadline planner" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>⏰ Academic Reminders</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Stay ahead of your coursework deadlines, exam schedules, and daily tasks with custom local tracking.
+                        </p>
+                    </div>
+                    <a href="deadline.html" class="btn-primary" style="margin-top: 1.5rem;">Manage Tasks</a>
                 </div>
-                <div class="card">
-                    <h3>Past Papers</h3>
-                    <p>Prepare efficiently with downloadable archive exam papers and step-by-step solutions.</p>
-                    <a href="resources.html" class="btn-primary" style="margin-top:15px; text-align:center;">Find Papers</a>
+            </div>
+
+            <!-- 3. Career Support Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80" alt="Career support and handshake" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>💼 Career Support</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Book 1-on-1 advisor consultations, get UK CV reviews, and prepare for interviews and assessment bootcamps.
+                        </p>
+                    </div>
+                    <a href="career.html" class="btn-primary" style="margin-top: 1.5rem;">Get Career Advice</a>
                 </div>
-                <div class="card">
-                    <h3>Peer Support</h3>
-                    <p>Connect with classmates and join collaborative study groups to conquer tough modules.</p>
-                    <a href="faq.html" class="btn-primary" style="margin-top:15px; text-align:center;">Learn More</a>
+            </div>
+
+            <!-- 4. Campus Newsletter & Events Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80" alt="Students attending event" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>📩 Newsletter & Events</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Stay updated on upcoming university events, employability bootcamps, and academic workshops.
+                        </p>
+                    </div>
+                    <a href="newspapper.html" class="btn-primary" style="margin-top: 1.5rem;">View Newsletter</a>
+                </div>
+            </div>
+
+            <!-- 5. Student Wellbeing Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80" alt="Meditation and mental health relaxation" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>🧠 Student Wellbeing</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Take care of your mental health with dedicated study timers, relaxation guides, and support lines.
+                        </p>
+                    </div>
+                    <a href="wellbeing.html" class="btn-primary" style="margin-top: 1.5rem;">Visit Wellness Hub</a>
+                </div>
+            </div>
+
+            <!-- 6. Grade Predictor Card -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" alt="Calculator and grade analytics" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h3>📊 Grade Predictor</h3>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Calculate your weighted module percentages and estimate your final degree award classification.
+                        </p>
+                    </div>
+                    <a href="calculator.html" class="btn-primary" style="margin-top: 1.5rem;">Calculate Grade</a>
                 </div>
             </div>
         </section>

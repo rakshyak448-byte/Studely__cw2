@@ -1,328 +1,495 @@
 $(document).ready(function () {
-    // ---------------------------------------------------------
-    // 1. FAQ Accordion Animation
-    // ---------------------------------------------------------
-    $(".faq-question").on("click", function () {
-        const $answer = $(this).next(".faq-answer");
-        $(".faq-answer").not($answer).slideUp(200);
-        $answer.slideToggle(200);
 
-        const isExpanded = $(this).attr("aria-expanded") === "true";
-        $(this).attr("aria-expanded", !isExpanded);
+    /* ==========================================================================
+       1. NAVIGATION & THEME SWITCHER
+       ========================================================================== */
+    $('.nav-toggle').on('click', function () {
+        $('.navigation').toggleClass('show');
     });
 
-    // ---------------------------------------------------------
-    // 2. Real-Time Resource Search Filter
-    // ---------------------------------------------------------
-    $("#searchBox").on("keyup", function () {
-        const value = $(this).val().toLowerCase();
-        let visibleCount = 0;
+    /* ==========================================================================
+       2. LOGIN FORM VALIDATION (index.html)
+       ========================================================================== */
+    $('#loginForm').on('submit', function (e) {
+        e.preventDefault();
+        const username = $('#username').val().trim();
+        const password = $('#password').val().trim();
+        const $error = $('#loginError');
 
-        $(".resource-card").filter(function () {
-            const matches = $(this).text().toLowerCase().indexOf(value) > -1;
-            $(this).toggle(matches);
-            if (matches) visibleCount++;
-        });
-
-        $("#noResults").toggle(visibleCount === 0);
+        if (username === "admin" && password === "1234") {
+            window.location.href = "main.html";
+        } else {
+            $error.text("Invalid username or password.").show();
+        }
     });
 
-    // ---------------------------------------------------------
-    // 3. Contact Form Validation & LocalStorage
-    // ---------------------------------------------------------
-    $("#contactForm").on("submit", function (e) {
+    /* ==========================================================================
+       3. FAQ ACCORDION (faq.html)
+       ========================================================================== */
+    $('.faq-question').on('click', function () {
+        const $this = $(this);
+        const $answer = $this.next('.faq-answer');
+
+        $this.toggleClass('active');
+        $answer.slideToggle(250);
+
+        const isExpanded = $this.attr('aria-expanded') === 'true';
+        $this.attr('aria-expanded', !isExpanded);
+    });
+
+    /* ==========================================================================
+       4. CONTACT FORM & LOCAL STORAGE (contact.html)
+       ========================================================================== */
+    $('#contactForm').on('submit', function (e) {
         e.preventDefault();
         let isValid = true;
 
-        const name = $("#name").val().trim();
-        const email = $("#email").val().trim();
-        const message = $("#message").val().trim();
+        $('.error-msg').hide().text('');
 
-        if (name === "") {
-            $("#nameError").text("Name is required.").show();
+        const name = $('#name').val().trim();
+        if (name === '') {
+            $('#nameError').text('Name is required.').show();
             isValid = false;
-        } else {
-            $("#nameError").hide();
         }
 
-        const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-        if (!emailPattern.test(email)) {
-            $("#emailError").text("Please enter a valid email address.").show();
+        const email = $('#email').val().trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === '') {
+            $('#emailError').text('Email is required.').show();
             isValid = false;
-        } else {
-            $("#emailError").hide();
+        } else if (!emailRegex.test(email)) {
+            $('#emailError').text('Please enter a valid email address.').show();
+            isValid = false;
         }
 
-        if (message === "") {
-            $("#messageError").text("Message cannot be empty.").show();
+        const message = $('#message').val().trim();
+        if (message === '') {
+            $('#messageError').text('Message is required.').show();
             isValid = false;
-        } else {
-            $("#messageError").hide();
         }
 
         if (isValid) {
-            const submission = { name, email, message, date: new Date().toLocaleString() };
-            let history = JSON.parse(localStorage.getItem("studely_submissions")) || [];
-            history.push(submission);
-            localStorage.setItem("studely_submissions", JSON.stringify(history));
+            const formData = {
+                name: name,
+                email: email,
+                message: message,
+                optIn: $('input[name="comm"]').is(':checked'),
+                timestamp: new Date().toLocaleString()
+            };
 
-            $("#submissionOutput").html(`
-                <div style="background: #dcfce7; color: #166534; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                    <h4>Thank you, ${name}!</h4>
-                    <p>Your details have been saved locally.</p>
+            localStorage.setItem('lastContactSubmission', JSON.stringify(formData));
+
+            $('#submissionOutput').html(`
+                <div style="margin-top: 15px; padding: 12px; background: #d1fae5; color: #065f46; border-radius: 6px;">
+                    <strong>Thank you, ${formData.name}!</strong> Your message has been saved locally.
                 </div>
-            `).fadeIn();
+            `).hide().fadeIn(400);
 
-            $("#contactForm")[0].reset();
+            this.reset();
         }
     });
 
-    // ---------------------------------------------------------
-    // 4. Student Reminders & Deadline Tracker (LocalStorage)
-    // ---------------------------------------------------------
-    function loadReminders() {
-        const reminders = JSON.parse(localStorage.getItem("studely_reminders")) || [];
-        $("#reminderList").empty();
+    /* ==========================================================================
+       5. RESOURCE SEARCH & UPLOAD (resources.html)
+       ========================================================================== */
+    $('#searchBox').on('keyup', function () {
+        const value = $(this).val().toLowerCase();
+        let matches = 0;
 
-        if (reminders.length === 0) {
-            $("#reminderList").append('<li style="color: #64748b; font-style: italic;">No upcoming deadlines set.</li>');
-            return;
-        }
+        $('.resource-card').each(function () {
+            const cardText = $(this).text().toLowerCase();
+            const isMatch = cardText.indexOf(value) > -1;
+            $(this).toggle(isMatch);
+            if (isMatch) matches++;
+        });
 
-        reminders.forEach((item, index) => {
-            $("#reminderList").append(`
-                <li style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px; border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #2563eb;">
+        $('#noResults').toggle(matches === 0);
+    });
+
+    $('#uploadForm').on('submit', function (e) {
+        e.preventDefault();
+        const title = $('#fileTitle').val().trim();
+        const category = $('#fileCategory').val();
+
+        if (title !== '') {
+            const newCard = `
+                <div class="card resource-card">
                     <div>
-                        <strong>[${item.type.toUpperCase()}] ${item.title}</strong>
-                        <div style="font-size: 0.85rem; color: #64748b;">Due: ${item.date}</div>
+                        <span style="background: #e0e7ff; color: #3730a3; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: bold;">${category}</span>
+                        <h3 style="margin-top: 8px;">${title}</h3>
+                        <p style="color: #64748b; font-size: 0.9rem;">User uploaded document.</p>
                     </div>
-                    <button class="delete-reminder" data-index="${index}" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Delete</button>
+                    <a href="#" class="btn-primary" style="margin-top:15px; text-align:center;">Download File</a>
+                </div>
+            `;
+            $('#resourceContainer').prepend(newCard);
+            this.reset();
+        }
+    });
+
+    /* ==========================================================================
+       6. REMINDER TRACKER (main.html)
+       ========================================================================== */
+    $('#reminderForm').on('submit', function (e) {
+        e.preventDefault();
+        const title = $('#taskTitle').val().trim();
+        const type = $('#taskType').val();
+        const date = $('#taskDate').val();
+
+        if (title && date) {
+            const itemHtml = `
+                <li style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 15px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>${title}</strong> <span style="font-size:0.8rem; background:#e2e8f0; padding:2px 6px; border-radius:4px;">${type}</span>
+                        <br><small style="color:#64748b;">Due: ${date}</small>
+                    </div>
+                    <button class="remove-btn" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">Delete</button>
                 </li>
-            `);
-        });
-    }
+            `;
+            $('#reminderList').append(itemHtml);
+            this.reset();
+        }
+    });
 
-    if ($("#reminderForm").length > 0) {
-        loadReminders();
+    $('#reminderList').on('click', '.remove-btn', function () {
+        $(this).parent('li').fadeOut(300, function () { $(this).remove(); });
+    });
 
-        $("#reminderForm").on("submit", function (e) {
-            e.preventDefault();
-            const title = $("#taskTitle").val().trim();
-            const type = $("#taskType").val();
-            const date = $("#taskDate").val();
+    /* ==========================================================================
+       7. GLOBAL GRADE CALCULATOR (calculator.html)
+       ========================================================================== */
+    $('#addModuleBtn').on('click', function () {
+        const rowHtml = `
+            <div class="calc-row">
+                <input type="text" placeholder="Module Name" class="mod-name">
+                <input type="number" placeholder="Credits" class="mod-credit" value="15" min="1">
+                <input type="number" placeholder="Mark %" class="mod-mark" min="0" max="100">
+                <button type="button" class="remove-row">×</button>
+            </div>
+        `;
+        $('#calcRowsContainer').append(rowHtml);
+    });
 
-            if (title && date) {
-                const newReminder = { title, type, date };
-                let reminders = JSON.parse(localStorage.getItem("studely_reminders")) || [];
-                reminders.push(newReminder);
-                localStorage.setItem("studely_reminders", JSON.stringify(reminders));
-                
-                $("#reminderForm")[0].reset();
-                loadReminders();
+    $('#calcRowsContainer').on('click', '.remove-row', function () {
+        $(this).closest('.calc-row').remove();
+    });
+
+    $('#calcForm').on('submit', function (e) {
+        e.preventDefault();
+        let totalWeightedMarks = 0;
+        let totalCredits = 0;
+
+        $('.calc-row').each(function () {
+            const credits = parseFloat($(this).find('.mod-credit').val()) || 0;
+            const mark = parseFloat($(this).find('.mod-mark').val()) || 0;
+
+            if (credits > 0 && mark >= 0) {
+                totalWeightedMarks += mark * credits;
+                totalCredits += credits;
             }
         });
 
-        $(document).on("click", ".delete-reminder", function () {
-            const index = $(this).data("index");
-            let reminders = JSON.parse(localStorage.getItem("studely_reminders")) || [];
-            reminders.splice(index, 1);
-            localStorage.setItem("studely_reminders", JSON.stringify(reminders));
-            loadReminders();
-        });
-    }
+        if (totalCredits > 0) {
+            const finalAverage = (totalWeightedMarks / totalCredits).toFixed(2);
+            let classification = "";
 
-    // ---------------------------------------------------------
-    // 5. Real-Life File Upload, Download & Delete Hub
-    // ---------------------------------------------------------
-    $("#uploadForm").on("submit", function (e) {
-        e.preventDefault();
-        const fileInput = document.getElementById("fileInput");
-        const category = $("#fileCategory").val();
-        const title = $("#fileTitle").val().trim();
+            if (finalAverage >= 70) classification = "First Class Honours (1st)";
+            else if (finalAverage >= 60) classification = "Upper Second Class (2:1)";
+            else if (finalAverage >= 50) classification = "Lower Second Class (2:2)";
+            else if (finalAverage >= 40) classification = "Third Class (3rd)";
+            else classification = "Fail / Resit Required";
 
-        if (fileInput.files.length === 0) {
-            alert("Please select a file to upload!");
-            return;
-        }
-
-        const file = fileInput.files[0];
-        const fileObjectURL = URL.createObjectURL(file);
-
-        const newCard = `
-            <div class="card resource-card" style="position: relative;">
-                <button class="delete-card-btn" style="position: absolute; top: 12px; right: 12px; background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold;">Delete</button>
-                <div>
-                    <span class="subject-tag">${category}</span>
-                    <h3 style="margin-top: 8px;">${title || file.name}</h3>
-                    <p>File Size: ${(file.size / 1024).toFixed(1)} KB | Format: ${file.name.split('.').pop().toUpperCase()}</p>
+            $('#calcResult').html(`
+                <div style="background: #e0f2fe; border: 1px solid #38bdf8; padding: 15px; border-radius: 8px;">
+                    <h3>Overall Average: ${finalAverage}%</h3>
+                    <p style="margin-top:4px;"><strong>Grade Degree Classification:</strong> ${classification}</p>
                 </div>
-                <a href="${fileObjectURL}" download="${file.name}" class="btn-primary" style="margin-top:15px; text-align:center;">Download File</a>
-            </div>
-        `;
-
-        $("#resourceContainer").prepend(newCard);
-        $("#uploadForm")[0].reset();
-    });
-
-    $(document).on("click", ".delete-card-btn", function () {
-        if (confirm("Are you sure you want to delete this resource card?")) {
-            $(this).closest(".resource-card").fadeOut(200, function () {
-                $(this).remove();
-            });
-        }
-    });
-
-    // ---------------------------------------------------------
-    // 6. Interactive Floating Chatbot Implementation
-    // ---------------------------------------------------------
-    if ($("#chatbot-widget").length === 0) {
-        const chatbotHTML = `
-            <div id="chatbot-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999; font-family: sans-serif;">
-                <button id="chatbot-toggle" style="background: #2563eb; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">💬</button>
-                <div id="chatbot-box" style="display: none; position: absolute; bottom: 75px; right: 0; width: 320px; height: 430px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; border: 1px solid #cbd5e1;">
-                    <div style="background: #1e3a8a; color: white; padding: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-                        <span>Studely Bot 🤖</span>
-                        <button id="chatbot-close" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✕</button>
-                    </div>
-                    <div id="chatbot-messages" style="flex: 1; padding: 12px; overflow-y: auto; background: #f8fafc; font-size: 0.88rem; display: flex; flex-direction: column; gap: 10px;">
-                        <div style="background: #e2e8f0; color: #1e293b; padding: 8px 12px; border-radius: 10px; max-width: 80%; align-self: flex-start;">
-                            Hi! Ask me about modules, downloading notes, or adding deadlines!
-                        </div>
-                    </div>
-                    <form id="chatbot-form" style="display: flex; border-top: 1px solid #e2e8f0; padding: 8px; background: white;">
-                        <input type="text" id="chatbot-input" placeholder="Type a message..." style="flex: 1; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 20px; outline: none; font-size: 0.85rem;" required>
-                        <button type="submit" style="background: #2563eb; color: white; border: none; padding: 8px 14px; margin-left: 6px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">Send</button>
-                    </form>
-                </div>
-            </div>
-        `;
-        $("body").append(chatbotHTML);
-    }
-
-    $(document).on("click", "#chatbot-toggle", function () {
-        const $box = $("#chatbot-box");
-        if ($box.css("display") === "none") {
-            $box.css("display", "flex").fadeIn(150);
+            `).hide().fadeIn(300);
         } else {
-            $box.fadeOut(150);
+            $('#calcResult').html('<p style="color:#dc2626;">Please enter valid marks and credits.</p>');
         }
     });
 
-    $(document).on("click", "#chatbot-close", function () {
-        $("#chatbot-box").fadeOut(150);
+    /* ==========================================================================
+       8. TIMEZONE & STUDY PLANNER (planner.html)
+       ========================================================================== */
+    $('#tzSelect').on('change', function () {
+        const tz = $(this).val();
+        try {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            $('#clockDisplay').text(timeString);
+        } catch (e) {
+            $('#clockDisplay').text("Time conversion unavailable");
+        }
     });
 
-    $(document).on("submit", "#chatbot-form", function (e) {
+    $('#sessionForm').on('submit', function (e) {
         e.preventDefault();
-        const query = $("#chatbot-input").val().trim();
-        if (!query) return;
+        const subject = $('#sessionSubject').val();
+        const partner = $('#sessionPartner').val();
+        const time = $('#sessionTime').val();
 
-        $("#chatbot-messages").append(`
-            <div style="background: #2563eb; color: white; padding: 8px 12px; border-radius: 10px; max-width: 80%; align-self: flex-end;">
-                ${query}
-            </div>
-        `);
-
-        $("#chatbot-input").val("");
-        $("#chatbot-messages").scrollTop($("#chatbot-messages")[0].scrollHeight);
-
-        setTimeout(() => {
-            let response = "I'm here to help! You can use the top navigation to search resources or track your deadlines.";
-            const q = query.toLowerCase();
-
-            if (q.includes("python") || q.includes("code") || q.includes("programming") || q.includes("database") || q.includes("sql")) {
-                response = "You can find and upload study materials like Python or SQL cheat sheets directly on the Resources page!";
-            } else if (q.includes("exam") || q.includes("deadline") || q.includes("assignment") || q.includes("todo")) {
-                response = "You can set and track all your exam dates and module deadlines on the Home page tracker!";
-            } else if (q.includes("upload") || q.includes("download") || q.includes("file")) {
-                response = "Head over to the Resources tab to upload files from your device or download notes directly.";
-            } else if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
-                response = "Hello! How can I assist you with your studies today?";
-            }
-
-            $("#chatbot-messages").append(`
-                <div style="background: #e2e8f0; color: #1e293b; padding: 8px 12px; border-radius: 10px; max-width: 80%; align-self: flex-start;">
-                    ${response}
+        if (subject && time) {
+            const card = `
+                <div class="card" style="margin-bottom: 10px;">
+                    <h4>${subject} Sync Session</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Partner/Group: ${partner || 'Global Study Group'}</p>
+                    <p><strong>Scheduled Time:</strong> ${time}</p>
                 </div>
-            `);
-            $("#chatbot-messages").scrollTop($("#chatbot-messages")[0].scrollHeight);
-        }, 400);
+            `;
+            $('#plannedSessions').prepend(card);
+            this.reset();
+        }
     });
 
-    // ---------------------------------------------------------
-    // 7. Interactive Mental Wellbeing Features
-    // ---------------------------------------------------------
-    
-    // A. Working 25-Min Study Timer
+    /* ==========================================================================
+       9. DIGITAL POMODORO TIMER LOGIC (wellbeing.html)
+       ========================================================================== */
     let timerInterval = null;
-    let timeLeft = 25 * 60; // 25 minutes in seconds
+    let defaultMinutes = 25;
+    let timeLeft = defaultMinutes * 60;
 
     function updateTimerDisplay() {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        $("#timerDisplay").text(`${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
+
+        const minString = minutes >= 100 ? minutes.toString() : minutes.toString().padStart(2, '0');
+        const secString = seconds.toString().padStart(2, '0');
+
+        $('#timerDisplay').text(`${minString}:${secString}`);
     }
 
-    $("#startTimer").on("click", function () {
-        if (timerInterval) return; // Prevent double intervals
-        timerInterval = setInterval(() => {
-            if (timeLeft > 0) {
-                timeLeft--;
-                updateTimerDisplay();
-            } else {
-                clearInterval(timerInterval);
-                timerInterval = null;
-                alert("Time for a 5-minute study break! Step away from your computer.");
-            }
-        }, 1000);
-    });
+    // Set Custom Time Button
+    $('#setCustomTimeBtn').off('click').on('click', function (e) {
+        e.preventDefault();
+        const customVal = parseInt($('#customMinutes').val(), 10);
 
-    $("#pauseTimer").on("click", function () {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    });
+        if (!isNaN(customVal) && customVal > 0 && customVal <= 180) {
+            clearInterval(timerInterval);
+            timerInterval = null;
 
-    $("#resetTimer").on("click", function () {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        timeLeft = 25 * 60;
-        updateTimerDisplay();
-    });
+            defaultMinutes = customVal;
+            timeLeft = defaultMinutes * 60;
 
-    // B. Interactive Breathing Exercise Guide
-    let breathingInterval = null;
-    $("#startBreathing").on("click", function () {
-        if (breathingInterval) {
-            clearInterval(breathingInterval);
-            breathingInterval = null;
-            $("#breathingText").text("Click to start exercise");
-            $(this).text("Start Breathing");
-            return;
+            updateTimerDisplay();
+            $('#timerStatus').text(`Timer set to ${defaultMinutes} minute(s). Click Start Session.`);
+        } else {
+            alert("Please enter a valid time between 1 and 180 minutes.");
         }
-
-        $(this).text("Stop Breathing Guide");
-        const steps = ["Inhale deeply (4s)... 🫁", "Hold breath (4s)... ⏸️", "Exhale slowly (6s)... 🌬️"];
-        let stepIdx = 0;
-
-        $("#breathingText").text(steps[0]);
-        breathingInterval = setInterval(() => {
-            stepIdx = (stepIdx + 1) % steps.length;
-            $("#breathingText").text(steps[stepIdx]);
-        }, 4000);
     });
 
-    // C. Daily Mood Tracker (LocalStorage)
-    $(".mood-btn").on("click", function () {
-        const selectedMood = $(this).data("mood");
-        const today = new Date().toLocaleDateString();
-
-        localStorage.setItem("studely_daily_mood", JSON.stringify({ mood: selectedMood, date: today }));
-        $("#moodOutput").html(`Recorded for today: <strong>${selectedMood}</strong>`).fadeIn();
+    // Start Session Button
+    $('#startTimerBtn').off('click').on('click', function (e) {
+        e.preventDefault();
+        if (timerInterval === null) {
+            $('#timerStatus').text("Focus Session Active... Keep studying!");
+            timerInterval = setInterval(function () {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    $('#timerStatus').text("Time's up! Take a break.");
+                    alert("Session finished! Time for a break.");
+                }
+            }, 1000);
+        }
     });
 
-    // Load saved mood if recorded today
-    const savedMood = JSON.parse(localStorage.getItem("studely_daily_mood"));
-    if (savedMood && savedMood.date === new Date().toLocaleDateString()) {
-        $("#moodOutput").html(`Recorded for today: <strong>${savedMood.mood}</strong>`).show();
+    // Pause Button
+    $('#pauseTimerBtn').off('click').on('click', function (e) {
+        e.preventDefault();
+        if (timerInterval !== null) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            $('#timerStatus').text("Session Paused.");
+        }
+    });
+
+    // Reset Button
+    $('#resetTimerBtn').off('click').on('click', function (e) {
+        e.preventDefault();
+        clearInterval(timerInterval);
+        timerInterval = null;
+        timeLeft = defaultMinutes * 60;
+        updateTimerDisplay();
+        $('#timerStatus').text("Timer reset. Ready to start!");
+    });
+
+    /* ==========================================================================
+       10. MODALS & WELLBEING INTERACTION LOGIC (wellbeing.html)
+       ========================================================================== */
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+        }
     }
+
+    function closeModal(modal) {
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Card Click Listeners
+    var card1 = document.getElementById('openBreathingModal');
+    var card2 = document.getElementById('openHydrationModal');
+    var card3 = document.getElementById('openHelplineModal');
+
+    if (card1) card1.addEventListener('click', function () { openModal('breathingModal'); });
+    if (card2) card2.addEventListener('click', function () { openModal('hydrationModal'); });
+    if (card3) card3.addEventListener('click', function () { openModal('helplineModal'); });
+
+    // Close Buttons Listener
+    var closeButtons = document.querySelectorAll('.modal-close');
+    closeButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var modal = btn.closest('.modal-overlay');
+            closeModal(modal);
+        });
+    });
+
+    // Close on Outside Click Listener
+    var modals = document.querySelectorAll('.modal-overlay');
+    modals.forEach(function (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal(modal);
+            }
+        });
+    });
+
+    // Water Tracker Logic
+    var waterCount = 0;
+    var addWaterBtn = document.getElementById('addWaterBtn');
+    var resetWaterBtn = document.getElementById('resetWaterBtn');
+    var waterDisplay = document.getElementById('waterCount');
+
+    if (addWaterBtn && waterDisplay) {
+        addWaterBtn.addEventListener('click', function () {
+            if (waterCount < 8) {
+                waterCount++;
+                waterDisplay.textContent = waterCount;
+            }
+        });
+    }
+
+    if (resetWaterBtn && waterDisplay) {
+        resetWaterBtn.addEventListener('click', function () {
+            waterCount = 0;
+            waterDisplay.textContent = waterCount;
+        });
+    }
+
+    // Screen Break Timer Logic
+    var eyeTimerInterval = null;
+    var eyeTimeLeft = 20 * 60;
+    var startEyeBtn = document.getElementById('startEyeTimerBtn');
+    var eyeDisplay = document.getElementById('eyeTimerDisplay');
+
+    if (startEyeBtn && eyeDisplay) {
+        startEyeBtn.addEventListener('click', function () {
+            if (eyeTimerInterval === null) {
+                startEyeBtn.textContent = "Timer Active (20 Mins)";
+                eyeTimerInterval = setInterval(function () {
+                    if (eyeTimeLeft > 0) {
+                        eyeTimeLeft--;
+                        var mins = Math.floor(eyeTimeLeft / 60).toString().padStart(2, '0');
+                        var secs = (eyeTimeLeft % 60).toString().padStart(2, '0');
+                        eyeDisplay.textContent = mins + ':' + secs;
+                    } else {
+                        clearInterval(eyeTimerInterval);
+                        eyeTimerInterval = null;
+                        alert("Time for an eye break! Look at something 20 feet away for 20 seconds.");
+                        eyeTimeLeft = 20 * 60;
+                        eyeDisplay.textContent = "20:00";
+                        startEyeBtn.textContent = "Start 20-Min Screen Timer";
+                    }
+                }, 1000);
+            }
+        });
+    }
+    /* ==========================================================================
+       11. CAREER BOOKING & NEWSLETTER FORM LOGIC
+       ========================================================================== */
+    $('#careerBookingForm').on('submit', function (e) {
+        e.preventDefault();
+        const name = $('#studentName').val().trim();
+        const topic = $('#supportTopic').val();
+        const date = $('#bookingDate').val();
+
+        if (name && date) {
+            $('#bookingResult').html(`
+                <div style="padding: 12px; background: #d1fae5; color: #065f46; border-radius: 6px;">
+                    <strong>Session Requested!</strong> Thank you, ${name}. Your consultation regarding <em>${topic}</em> is provisionally booked for ${date}.
+                </div>
+            `).hide().fadeIn(300);
+            this.reset();
+        }
+    });
+
+    $('#newsletterForm').on('submit', function (e) {
+        e.preventDefault();
+        const email = $('#newsletterEmail').val().trim();
+
+        if (email !== '') {
+            $('#newsletterResult').html(`
+                <div style="padding: 10px; background: #d1fae5; color: #065f46; border-radius: 6px;">
+                    Thank you! <strong>${email}</strong> has been added to our campus newsletter.
+                </div>
+            `).hide().fadeIn(300);
+            this.reset();
+        }
+    });
+    /* ==========================================================================
+       12. CAMPUS EVENTS MODAL LOGIC
+       ========================================================================== */
+    window.openEventModal = function (title, date, description) {
+        $('#modalTitle').text(title);
+        $('#modalDate').text('🗓️ ' + date);
+        $('#modalDesc').text(description);
+        $('#eventModal').css('display', 'flex');
+    };
+
+    window.closeModalDirect = function () {
+        $('#eventModal').css('display', 'none');
+    };
+
+    window.closeEventModal = function (event) {
+        if (event.target.id === 'eventModal') {
+            $('#eventModal').css('display', 'none');
+        }
+    };
+
+    window.registerEvent = function () {
+        alert('Thank you! You have successfully registered for this event.');
+        window.closeModalDirect();
+    };
+    /* ==========================================================================
+   13. CAREER SUPPORT MODAL LOGIC
+   ========================================================================== */
+window.openCareerModal = function (title, tag, description) {
+    $('#careerModalTitle').text(title);
+    $('#careerModalTag').text('📌 ' + tag);
+    $('#careerModalDesc').text(description);
+    $('#careerModal').css('display', 'flex');
+};
+
+window.closeCareerModalDirect = function () {
+    $('#careerModal').css('display', 'none');
+};
+
+window.closeCareerModal = function (event) {
+    if (event.target.id === 'careerModal') {
+        $('#careerModal').css('display', 'none');
+    }
+};
+
+window.requestCareerSupport = function () {
+    alert('Request submitted! Our team will follow up via email.');
+    window.closeCareerModalDirect();
+};
 });

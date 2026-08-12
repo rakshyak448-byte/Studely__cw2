@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Hub - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="image/studelylogo.png" alt="Studely Logo">
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <nav class="navigation">
+    <a href="main.html">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html" class="active">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Digital Pomodoro Timer Tool -->
+        <section class="card-box wellbeing-card" style="text-align: center;">
+            <h1 style="color: #065f46; margin-bottom: 0.5rem;">🧠 Digital Study & Focus Timer</h1>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Set a custom study time or stick to standard intervals to maintain focus.</p>
+
+            <div class="digital-clock-screen">
+                <div class="digital-clock-display" id="timerDisplay">25:00</div>
+            </div>
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 1.5rem;">
+                <label for="customMinutes" style="font-weight: 600; color: var(--text-dark);">Set Minutes:</label>
+                <input type="number" id="customMinutes" value="25" min="1" max="180" style="width: 80px; text-align: center; font-size: 1rem; padding: 0.4rem;">
+                <button id="setCustomTimeBtn" class="btn-primary" style="background: #475569; padding: 0.4rem 0.8rem; font-size: 0.9rem;">Set Time</button>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 1rem;">
+                <button id="startTimerBtn" class="btn-primary" style="background: #10b981;">Start Session</button>
+                <button id="pauseTimerBtn" class="btn-primary" style="background: #f59e0b;">Pause</button>
+                <button id="resetTimerBtn" class="btn-primary" style="background: #ef4444;">Reset</button>
+            </div>
+            <p id="timerStatus" style="font-weight: 600; color: #047857;">Ready to study!</p>
+        </section>
+
+        <!-- Clickable Interactive Cards Grid -->
+        <section class="features-grid">
+            <!-- 1. Guided Breathing Card -->
+            <div class="wb-card clickable-card" id="openBreathingModal" onclick="document.getElementById('breathingModal').style.display='flex'">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" alt="Guided Meditation and Breathing">
+                <div class="wb-card-content">
+                    <h4 style="color: #166534; margin-bottom: 0.4rem;">🌿 Guided Breathing Exercise</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Practice box breathing to reduce stress. Click to view step-by-step exercises.
+                    </p>
+                    <span class="card-badge">Click to Open &rarr;</span>
+                </div>
+            </div>
+
+            <!-- 2. Hydration & Screen Breaks Card -->
+            <div class="wb-card clickable-card" id="openHydrationModal" onclick="document.getElementById('hydrationModal').style.display='flex'">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Water Glass and Fitness Break">
+                <div class="wb-card-content">
+                    <h4 style="color: #166534; margin-bottom: 0.4rem;">💧 Hydration & Screen Breaks</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Log daily water intake and use the 20-20-20 eye rest timer.
+                    </p>
+                    <span class="card-badge">Click to Open Tools &rarr;</span>
+                </div>
+            </div>
+
+            <!-- 3. Confidential Helpline Card -->
+            <div class="wb-card clickable-card" id="openHelplineModal" onclick="document.getElementById('helplineModal').style.display='flex'">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Mental Health Support Line">
+                <div class="wb-card-content">
+                    <h4 style="color: #166534; margin-bottom: 0.4rem;">📞 24/7 Confidential Helpline</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Connect with university support, Samaritans, or emergency resources.
+                    </p>
+                    <span class="card-badge">Click to Contact &rarr;</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==========================================================================
+         MODAL POPUPS
+         ========================================================================== -->
+
+    <!-- 1. Breathing Exercises Modal -->
+    <div id="breathingModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 650px; max-height: 90vh; overflow-y: auto;">
+            <button class="modal-close" onclick="closeModal('breathingModal')">&times;</button>
+            <h2 style="color: #166534; margin-bottom: 0.25rem;">🌿 Guided Breathing Exercises</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.25rem;">Follow these step-by-step techniques to reduce anxiety and clear your mind before exams.</p>
+            
+            <!-- Exercise 1: Box Breathing -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.8rem;">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=300&q=80" alt="Box Breathing" style="width: 110px; height: 80px; object-fit: cover; border-radius: 6px;">
+                    <div>
+                        <h3 style="color: #166534; margin-bottom: 0.25rem;">1. Box Breathing Method (4-4-4-4)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Best for resetting focus during stressful study sessions.</p>
+                    </div>
+                </div>
+                <ol style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-dark); line-height: 1.6;">
+                    <li><strong>Inhale</strong> slowly through your nose for <strong>4 seconds</strong>.</li>
+                    <li><strong>Hold</strong> your breath at the top for <strong>4 seconds</strong>.</li>
+                    <li><strong>Exhale</strong> fully through your mouth for <strong>4 seconds</strong>.</li>
+                    <li><strong>Pause</strong> and hold empty for <strong>4 seconds</strong> before repeating 4 times.</li>
+                </ol>
+            </div>
+
+            <!-- Exercise 2: 4-7-8 Relaxation -->
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.8rem;">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=300&q=80" alt="4-7-8 Breathing" style="width: 110px; height: 80px; object-fit: cover; border-radius: 6px;">
+                    <div>
+                        <h3 style="color: #0369a1; margin-bottom: 0.25rem;">2. 4-7-8 Relaxing Breath</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Great before sleep or when feeling overwhelmed.</p>
+                    </div>
+                </div>
+                <ol style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-dark); line-height: 1.6;">
+                    <li>Place the tip of your tongue against the ridge behind your upper teeth.</li>
+                    <li><strong>Inhale</strong> quietly through nose for <strong>4 seconds</strong>.</li>
+                    <li><strong>Hold</strong> your breath for <strong>7 seconds</strong>.</li>
+                    <li><strong>Exhale</strong> completely through mouth making a 'whoosh' sound for <strong>8 seconds</strong>.</li>
+                </ol>
+            </div>
+
+            <!-- Optional External Video Link -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem;">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Prefer a video guide?</span>
+                <a href="https://www.youtube.com/watch?v=tEmt1Znux58" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background: #166534; font-size: 0.85rem; padding: 0.4rem 0.8rem; text-decoration: none;">Watch on YouTube ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Hydration & Screen Break Modal -->
+    <div id="hydrationModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('hydrationModal')">&times;</button>
+            <h2 style="color: #166534; margin-bottom: 0.5rem;">💧 Hydration & Eye Care Hub</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Stay healthy during long study sessions with regular breaks.</p>
+            
+            <!-- Water Tracker -->
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h3>💧 Daily Water Tracker</h3>
+                <p>Glasses logged today: <strong id="waterCount" style="font-size: 1.2rem; color: #0284c7;">0</strong> / 8</p>
+                <button id="addWaterBtn" onclick="addWater()" class="btn-primary" style="background: #0284c7; margin-top: 0.5rem; padding: 0.4rem 0.8rem;">+ Log 1 Glass</button>
+                <button id="resetWaterBtn" onclick="resetWater()" style="background: transparent; border: none; color: #64748b; text-decoration: underline; cursor: pointer; margin-left: 10px;">Reset</button>
+            </div>
+
+            <!-- Eye Break Timer -->
+            <div style="background: #fdf4ff; border: 1px solid #f5d0fe; padding: 1rem; border-radius: 8px;">
+                <h3>👁️ 20-20-20 Screen Break Timer</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Every 20 minutes, look at an object 20 feet away for 20 seconds.</p>
+                <div id="eyeTimerDisplay" style="font-size: 1.8rem; font-weight: bold; color: #c026d3; margin: 0.5rem 0;">20:00</div>
+                <button id="startEyeTimerBtn" onclick="startEyeTimer()" class="btn-primary" style="background: #c026d3; padding: 0.4rem 0.8rem;">Start 20-Min Screen Timer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Helpline Modal -->
+    <div id="helplineModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('helplineModal')">&times;</button>
+            <h2 style="color: #166534; margin-bottom: 0.5rem;">📞 Confidential Student Support Lines</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Reach out anytime. These services offer free, confidential support.</p>
+            
+            <div class="helpline-list">
+                <div class="helpline-item">
+                    <div>
+                        <strong>Samaritans UK</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">24/7 mental health & emotional support</p>
+                    </div>
+                    <a href="tel:116123" class="btn-primary" style="background: #10b981; padding: 0.4rem 0.8rem;">Call 116 123</a>
+                </div>
+
+                <div class="helpline-item">
+                    <div>
+                        <strong>Shout Crisis Text Line</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">24/7 confidential text support</p>
+                    </div>
+                    <a href="sms:85258?body=SHOUT" class="btn-primary" style="background: #0284c7; padding: 0.4rem 0.8rem;">Text 85258</a>
+                </div>
+
+                <div class="helpline-item">
+                    <div>
+                        <strong>University Student Support</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Campus wellbeing & advice team</p>
+                    </div>
+                    <a href="contact.html" class="btn-primary" style="background: #475569; padding: 0.4rem 0.8rem;">Contact Team</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+    <!-- Standalone Modal Script -->
+    <script>
+        // Function to close any modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside content box
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Water Log Counter Logic
+        let waterCount = 0;
+        function addWater() {
+            if (waterCount < 8) {
+                waterCount++;
+                document.getElementById('waterCount').textContent = waterCount;
+            }
+        }
+        function resetWater() {
+            waterCount = 0;
+            document.getElementById('waterCount').textContent = waterCount;
+        }
+
+        // Screen Break Timer Logic
+        let eyeTimerInterval = null;
+        let eyeTimeLeft = 20 * 60;
+
+        function startEyeTimer() {
+            const btn = document.getElementById('startEyeTimerBtn');
+            const display = document.getElementById('eyeTimerDisplay');
+
+            if (eyeTimerInterval === null) {
+                btn.textContent = "Timer Active (20 Mins)";
+                eyeTimerInterval = setInterval(function () {
+                    if (eyeTimeLeft > 0) {
+                        eyeTimeLeft--;
+                        let mins = Math.floor(eyeTimeLeft / 60).toString().padStart(2, '0');
+                        let secs = (eyeTimeLeft % 60).toString().padStart(2, '0');
+                        display.textContent = mins + ':' + secs;
+                    } else {
+                        clearInterval(eyeTimerInterval);
+                        eyeTimerInterval = null;
+                        alert("Time for an eye break! Look at something 20 feet away for 20 seconds.");
+                        eyeTimeLeft = 20 * 60;
+                        display.textContent = "20:00";
+                        btn.textContent = "Start 20-Min Screen Timer";
+                    }
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

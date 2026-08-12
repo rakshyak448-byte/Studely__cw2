@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studely - Career Support</title>
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+        <a href="main.html"><img src="image/studelylogo.png" alt="Studely Logo"></a>
+    </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+        <nav class="navigation">
+            <a href="main.html">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html" class="active">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="card-box">
+            <h2>Career & Employability Support</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                Get guidance on job hunting, CV writing, interview prep, and book 1-on-1 advisory sessions.
+            </p>
+
+            <div class="features-grid">
+                <!-- Service 1 -->
+                <div class="card wb-card clickable-card" onclick="openCareerModal('1-on-1 Career Consultation', 'Available Mon–Fri', 'Book a quick chat with our career advisors to talk through career paths, UK CVs, or job applications.')">
+                    <div class="wb-card-content">
+                        <h3>1-on-1 Career Consultation</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                            Book a quick chat with our career advisors to talk through career paths, UK CVs, or job applications.
+                        </p>
+                        <span class="card-badge" style="color: #10b981;">Available Mon–Fri</span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="card wb-card clickable-card" onclick="openCareerModal('CV & Cover Letter Review', '24h Feedback Turnaround', 'Upload your draft CV or cover letter to receive feedback on formatting and UK industry standards.')">
+                    <div class="wb-card-content">
+                        <h3>CV & Cover Letter Review</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                            Upload your draft CV or cover letter to receive feedback on formatting and UK industry standards.
+                        </p>
+                        <span class="card-badge" style="color: #10b981;">24h Feedback Turnaround</span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="card wb-card clickable-card" onclick="openCareerModal('Interview & Assessment Prep', 'Bootcamps & Workshops', 'Practice mock interviews and learn how to navigate assessment centre group exercises.')">
+                    <div class="wb-card-content">
+                        <h3>Interview & Assessment Prep</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                            Practice mock interviews and learn how to navigate assessment centre group exercises.
+                        </p>
+                        <span class="card-badge" style="color: #10b981;">Bootcamps & Workshops</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Form Section -->
+        <div class="card-box">
+            <h3>Book a Career Advisor Session</h3>
+            <form id="careerBookingForm" style="margin-top: 1rem;">
+                <div class="grid-form">
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" id="studentEmail" placeholder="student@ulster.ac.uk" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportTopic">Topic to Discuss</label>
+                        <select id="supportTopic" required>
+                            <option value="CV Review">UK CV & Cover Letter Review</option>
+                            <option value="Job Search">Finding Part-Time or Graduate Jobs</option>
+                            <option value="Interview Prep">Interview Preparation</option>
+                            <option value="Career Pathways">Exploring Career Pathways</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingDate">Preferred Date</label>
+                        <input type="date" id="bookingDate" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 1rem;">Book Session</button>
+            </form>
+            <div id="bookingResult" style="margin-top: 15px;"></div>
+        </div>
+    </main>
+
+    <!-- Career Details Popup Modal -->
+    <div id="careerModal" class="modal-overlay" onclick="closeCareerModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCareerModalDirect()">&times;</button>
+            <h3 id="careerModalTitle" style="color: var(--primary-color); margin-bottom: 0.5rem;"></h3>
+            <p id="careerModalTag" style="font-weight: 600; color: #10b981; margin-bottom: 1rem;"></p>
+            <p id="careerModalDesc" style="margin-bottom: 1.5rem; color: var(--text-dark);"></p>
+            <button class="btn-primary" onclick="requestCareerSupport()">Book / Request Support</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

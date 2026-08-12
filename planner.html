@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Study Planner - Studely</title>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="image/studelylogo.png" alt="Studely Logo">
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <nav class="navigation">
+    <a href="main.html">Home</a>
+            <a href="deadline.html">Academic Reminders</a>
+            <a href="wellbeing.html">Wellness Hub</a>
+            <a href="resources.html">Resources</a>
+            <a href="career.html">Career Support</a>
+            <a href="newspapper.html">Newsletter & Events</a>
+            <a href="calculator.html">Grade Predictor</a>
+            <a href="planner.html" class="active">Global Planner</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+</nav>
+    </header>
+
+    <main class="container">
+        <!-- Time Zone Converter Section -->
+        <section class="card-box" style="text-align: center;">
+            <h2 style="color: var(--primary-color);">🌍 Global Peer Time-Zone Clock</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Coordinate study groups across different world time zones seamlessly.</p>
+
+            <div style="max-width: 400px; margin: 0 auto;" class="form-group">
+                <label for="tzSelect">Select Peer Region:</label>
+                <select id="tzSelect">
+                    <option value="Europe/London">London, UK (GMT/BST)</option>
+                    <option value="America/New_York">New York, USA (EST)</option>
+                    <option value="Asia/Kathmandu">Kathmandu, Nepal (NPT)</option>
+                    <option value="Asia/Dubai">Dubai, UAE (GST)</option>
+                    <option value="Australia/Sydney">Sydney, Australia (AEST)</option>
+                </select>
+            </div>
+
+            <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-top: 10px;" id="clockDisplay">
+                Select a zone above
+            </div>
+        </section>
+
+        <!-- Session Schedule -->
+        <section class="card-box">
+            <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Schedule International Study Session</h2>
+            
+            <form id="sessionForm" class="grid-form">
+                <div class="form-group">
+                    <label for="sessionSubject">Subject / Topic</label>
+                    <input type="text" id="sessionSubject" placeholder="e.g. Database Systems" required>
+                </div>
+                <div class="form-group">
+                    <label for="sessionPartner">Peer Name / Location</label>
+                    <input type="text" id="sessionPartner" placeholder="e.g. Alex (New York)">
+                </div>
+                <div class="form-group">
+                    <label for="sessionTime">Session Time</label>
+                    <input type="time" id="sessionTime" required>
+                </div>
+                <button type="submit" class="btn-primary">Schedule Session</button>
+            </form>
+
+            <div id="plannedSessions" style="margin-top: 20px;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Studely. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
