@@ -106,3 +106,32 @@ body {
 .signup a:hover {
     text-decoration: underline;
 }
+
+/* Signup form styling adjustments */
+.login-card .input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.login-card .input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.login-card .input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.login-card .input-group input:focus {
+    border-color: #1d4ed8;
+    outline: 2px solid #1d4ed8;
+}

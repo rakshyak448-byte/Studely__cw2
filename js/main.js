@@ -10,21 +10,88 @@ $(document).ready(function () {
     /* ==========================================================================
        2. LOGIN FORM VALIDATION (index.html)
        ========================================================================== */
-    $('#loginForm').on('submit', function (e) {
+    $('#login-form').on('submit', function (e) {
         e.preventDefault();
-        const username = $('#username').val().trim();
-        const password = $('#password').val().trim();
-        const $error = $('#loginError');
+        
+        // Convert input to lowercase to avoid case-sensitivity mismatches
+        const enteredUser = $(this).find('input[type="text"]').val().trim().toLowerCase();
+        const enteredPass = $(this).find('input[type="password"]').val().trim();
 
-        if (username === "admin" && password === "1234") {
-            window.location.href = "main.html";
+        const savedUserData = localStorage.getItem('registeredUser');
+
+        if (!savedUserData) {
+            alert('No registered user found. Please sign up first.');
+            return;
+        }
+
+        const registeredUser = JSON.parse(savedUserData);
+
+        // Compare case-insensitive username/email and exact password
+        const matchesUser = (enteredUser === registeredUser.fullName.toLowerCase() || enteredUser === registeredUser.email.toLowerCase());
+        const matchesPass = (enteredPass === registeredUser.password);
+
+        if (matchesUser && matchesPass) {
+            alert('Login successful! Redirecting...');
+            window.location.href = 'main.html';
         } else {
-            $error.text("Invalid username or password.").show();
+            alert('Incorrect username or password.');
         }
     });
 
     /* ==========================================================================
-       3. FAQ ACCORDION (faq.html)
+       3. SIGN UP FORM VALIDATION (signup.html)
+       ========================================================================== */
+    $('#signup-form').on('submit', function (e) {
+        e.preventDefault();
+        
+        // Grab input values cleanly
+        const fullName = ($('#signup-fullname').length ? $('#signup-fullname') : $(this).find('input[type="text"]')).val().trim();
+        const email = ($('#signup-email').length ? $('#signup-email') : $(this).find('input[type="email"]')).val().trim();
+        const pass = $(this).find('input[type="password"]').first().val();
+        const confirmPass = $(this).find('input[type="password"]').last().val();
+
+        // 1. Validate matching passwords
+        if (pass !== confirmPass) {
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+
+        // 2. Prevent using the exact same value for email/username and password
+        if (pass.toLowerCase() === email.toLowerCase() || pass.toLowerCase() === fullName.toLowerCase()) {
+            alert('Security Error: Your password cannot be identical to your name or email.');
+            return;
+        }
+
+        // 3. Check if user already exists in storage
+        const existingData = localStorage.getItem('registeredUser');
+        if (existingData) {
+            const existingUser = JSON.parse(existingData);
+            if (existingUser.email.toLowerCase() === email.toLowerCase()) {
+                alert('An account with this email address already exists. Please log in.');
+                window.location.href = 'index.html';
+                return;
+            }
+        }
+
+        // 4. Save clean credentials if all checks pass
+        if (fullName !== "" && email !== "" && pass !== "") {
+            const userCredentials = {
+                fullName: fullName,
+                email: email,
+                password: pass
+            };
+            
+            localStorage.setItem('registeredUser', JSON.stringify(userCredentials));
+
+            alert('Account created successfully! Redirecting to login...');
+            window.location.href = 'index.html';
+        } else {
+            alert('Please fill in all required fields.');
+        }
+    });
+
+    /* ==========================================================================
+       4. FAQ ACCORDION (faq.html)
        ========================================================================== */
     $('.faq-question').on('click', function () {
         const $this = $(this);
@@ -38,7 +105,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       4. CONTACT FORM & LOCAL STORAGE (contact.html)
+       5. CONTACT FORM & LOCAL STORAGE (contact.html)
        ========================================================================== */
     $('#contactForm').on('submit', function (e) {
         e.preventDefault();
@@ -90,7 +157,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       5. RESOURCE SEARCH & UPLOAD (resources.html)
+       6. RESOURCE SEARCH & UPLOAD (resources.html)
        ========================================================================== */
     $('#searchBox').on('keyup', function () {
         const value = $(this).val().toLowerCase();
@@ -128,7 +195,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       6. REMINDER TRACKER (main.html)
+       7. REMINDER TRACKER (main.html)
        ========================================================================== */
     $('#reminderForm').on('submit', function (e) {
         e.preventDefault();
@@ -156,7 +223,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       7. GLOBAL GRADE CALCULATOR (calculator.html)
+       8. GLOBAL GRADE CALCULATOR (calculator.html)
        ========================================================================== */
     $('#addModuleBtn').on('click', function () {
         const rowHtml = `
@@ -211,7 +278,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       8. TIMEZONE & STUDY PLANNER (planner.html)
+       9. TIMEZONE & STUDY PLANNER (planner.html)
        ========================================================================== */
     $('#tzSelect').on('change', function () {
         const tz = $(this).val();
@@ -244,7 +311,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       9. DIGITAL POMODORO TIMER LOGIC (wellbeing.html)
+       10. DIGITAL POMODORO TIMER LOGIC (wellbeing.html)
        ========================================================================== */
     let timerInterval = null;
     let defaultMinutes = 25;
@@ -260,7 +327,6 @@ $(document).ready(function () {
         $('#timerDisplay').text(`${minString}:${secString}`);
     }
 
-    // Set Custom Time Button
     $('#setCustomTimeBtn').off('click').on('click', function (e) {
         e.preventDefault();
         const customVal = parseInt($('#customMinutes').val(), 10);
@@ -279,7 +345,6 @@ $(document).ready(function () {
         }
     });
 
-    // Start Session Button
     $('#startTimerBtn').off('click').on('click', function (e) {
         e.preventDefault();
         if (timerInterval === null) {
@@ -298,7 +363,6 @@ $(document).ready(function () {
         }
     });
 
-    // Pause Button
     $('#pauseTimerBtn').off('click').on('click', function (e) {
         e.preventDefault();
         if (timerInterval !== null) {
@@ -308,7 +372,6 @@ $(document).ready(function () {
         }
     });
 
-    // Reset Button
     $('#resetTimerBtn').off('click').on('click', function (e) {
         e.preventDefault();
         clearInterval(timerInterval);
@@ -319,7 +382,7 @@ $(document).ready(function () {
     });
 
     /* ==========================================================================
-       10. MODALS & WELLBEING INTERACTION LOGIC (wellbeing.html)
+       11. MODALS & WELLBEING INTERACTION LOGIC (wellbeing.html)
        ========================================================================== */
     function openModal(modalId) {
         var modal = document.getElementById(modalId);
@@ -334,7 +397,6 @@ $(document).ready(function () {
         }
     }
 
-    // Card Click Listeners
     var card1 = document.getElementById('openBreathingModal');
     var card2 = document.getElementById('openHydrationModal');
     var card3 = document.getElementById('openHelplineModal');
@@ -343,7 +405,6 @@ $(document).ready(function () {
     if (card2) card2.addEventListener('click', function () { openModal('hydrationModal'); });
     if (card3) card3.addEventListener('click', function () { openModal('helplineModal'); });
 
-    // Close Buttons Listener
     var closeButtons = document.querySelectorAll('.modal-close');
     closeButtons.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -352,7 +413,6 @@ $(document).ready(function () {
         });
     });
 
-    // Close on Outside Click Listener
     var modals = document.querySelectorAll('.modal-overlay');
     modals.forEach(function (modal) {
         modal.addEventListener('click', function (e) {
@@ -362,7 +422,6 @@ $(document).ready(function () {
         });
     });
 
-    // Water Tracker Logic
     var waterCount = 0;
     var addWaterBtn = document.getElementById('addWaterBtn');
     var resetWaterBtn = document.getElementById('resetWaterBtn');
@@ -384,7 +443,6 @@ $(document).ready(function () {
         });
     }
 
-    // Screen Break Timer Logic
     var eyeTimerInterval = null;
     var eyeTimeLeft = 20 * 60;
     var startEyeBtn = document.getElementById('startEyeTimerBtn');
@@ -412,8 +470,9 @@ $(document).ready(function () {
             }
         });
     }
+
     /* ==========================================================================
-       11. CAREER BOOKING & NEWSLETTER FORM LOGIC
+       12. CAREER BOOKING & NEWSLETTER FORM LOGIC
        ========================================================================== */
     $('#careerBookingForm').on('submit', function (e) {
         e.preventDefault();
@@ -444,33 +503,34 @@ $(document).ready(function () {
             this.reset();
         }
     });
-    /* ==========================================================================
-       12. CAMPUS EVENTS MODAL LOGIC
-       ========================================================================== */
-    window.openEventModal = function (title, date, description) {
-        $('#modalTitle').text(title);
-        $('#modalDate').text('🗓️ ' + date);
-        $('#modalDesc').text(description);
-        $('#eventModal').css('display', 'flex');
-    };
 
-    window.closeModalDirect = function () {
-        $('#eventModal').css('display', 'none');
-    };
+});
 
-    window.closeEventModal = function (event) {
-        if (event.target.id === 'eventModal') {
-            $('#eventModal').css('display', 'none');
-        }
-    };
-
-    window.registerEvent = function () {
-        alert('Thank you! You have successfully registered for this event.');
-        window.closeModalDirect();
-    };
-    /* ==========================================================================
-   13. CAREER SUPPORT MODAL LOGIC
+/* ==========================================================================
+   13. CAMPUS & CAREER GLOBAL MODAL FUNCTIONS
    ========================================================================== */
+window.openEventModal = function (title, date, description) {
+    $('#modalTitle').text(title);
+    $('#modalDate').text('🗓️ ' + date);
+    $('#modalDesc').text(description);
+    $('#eventModal').css('display', 'flex');
+};
+
+window.closeModalDirect = function () {
+    $('#eventModal').css('display', 'none');
+};
+
+window.closeEventModal = function (event) {
+    if (event.target.id === 'eventModal') {
+        $('#eventModal').css('display', 'none');
+    }
+};
+
+window.registerEvent = function () {
+    alert('Thank you! You have successfully registered for this event.');
+    window.closeModalDirect();
+};
+
 window.openCareerModal = function (title, tag, description) {
     $('#careerModalTitle').text(title);
     $('#careerModalTag').text('📌 ' + tag);
@@ -492,4 +552,3 @@ window.requestCareerSupport = function () {
     alert('Request submitted! Our team will follow up via email.');
     window.closeCareerModalDirect();
 };
-});

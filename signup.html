@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Studely</title>
+    <link rel="icon" href="image/favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <!-- Logo -->
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="image/studelylogo.png" alt="Studely Logo" class="login-logo">
+            </a>
+        </div>
+
+        <h2 class="login-title">Create Account</h2>
+
+        <!-- Registration Form -->
+        <form id="signup-form" class="login-form">
+            <div class="input-group">
+                <label for="signup-fullname">Full Name</label>
+                <input type="text" id="signup-fullname" name="fullname" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="signup-email">Student Email</label>
+                <input type="email" id="signup-email" name="email" placeholder="Student Email (e.g. user@ulster.ac.uk)" required>
+            </div>
+
+            <div class="input-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="password" placeholder="Password" required minlength="6">
+            </div>
+
+            <div class="input-group">
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" name="confirmPassword" placeholder="Confirm Password" required minlength="6">
+            </div>
+
+            <button type="submit" class="login-btn">SIGN UP</button>
+        </form>
+
+        <div class="login-footer">
+            <p>Already have an account? <a href="index.html">Log in</a></p>
+        </div>
+    </div>
+
+</body>
+</html>
